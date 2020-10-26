@@ -69,15 +69,17 @@ func (f *rawFactory) CanHandleAndAccept(name string) (bool, bool, error) {
 	if name == "/" {
 		return true, true, nil
 	}
-	if *dockerOnly && f.rawPrefixWhiteList[0] == "" {
+	if strings.Contains(name, "/system.slice") {
 		return true, false, nil
 	}
-	for _, prefix := range f.rawPrefixWhiteList {
-		if strings.HasPrefix(name, prefix) {
-			return true, true, nil
-		}
+	if strings.Contains(name, "/user.slice") {
+		return true, false, nil
 	}
-	return true, false, nil
+	if strings.Contains(name, "/init.scope") {
+		return true, false, nil
+	}
+
+	return true, true, nil
 }
 
 func (f *rawFactory) DebugInfo() map[string][]string {
