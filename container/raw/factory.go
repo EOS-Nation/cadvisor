@@ -78,6 +78,9 @@ func (f *rawFactory) CanHandleAndAccept(name string) (bool, bool, error) {
 	if strings.Contains(name, "/init.scope") {
 		return true, false, nil
 	}
+	if strings.Contains(name, "/lxc") {
+		return true, false, nil
+	}
 
 	return true, true, nil
 }
